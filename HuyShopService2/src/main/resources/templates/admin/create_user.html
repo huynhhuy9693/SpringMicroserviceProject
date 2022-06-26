@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang = xmlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml">
 <th:block th:include="/home"></th:block>
-<body>
-<th:block th:include="/navbar"></th:block>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
+<body>
+<th:block th:include="/index"></th:block>
 <div class="container mt-3">
     <h2>FORM</h2>
     <form th:object="${user}" th:action="@{/admin_user/user/create}" method="post">
@@ -14,6 +15,7 @@
         <div class="mb-3 mt-3">
             <label for="password">PASSWORD:</label>
             <input type="password" class="form-control" id="password" placeholder="Enter name" th:field="*{passWord}" >
+
         </div>
         <div class="mb-3 mt-3">
             <label for="role_id">ROLE:</label>
@@ -25,5 +27,6 @@
         <button type="reset" class="btn btn-danger">Reset</button>
     </form>
 </div>
+
 </body>
 </html>

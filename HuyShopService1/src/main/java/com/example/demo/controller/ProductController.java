@@ -1,16 +1,25 @@
 package com.example.demo.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.entity.Product;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Part;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping( value = "/admin_product")
@@ -21,6 +30,7 @@ public class ProductController {
     private ProductService service;
     @Autowired
     private CategoryService categoryService;
+
 
 
 
@@ -56,9 +66,12 @@ public class ProductController {
     }
 
     @PostMapping("product/create")
-    public String  createProduct( Model model,@ModelAttribute("product") Product product )
+    public String  createProduct(Model model, @ModelAttribute("product") Product product)
     {
         System.out.println("Creating Product " +product.getName());
+        //up file
+//        File file = new File(product.getImg_url());
+//        service.uploadFile((MultipartFile) file);
         service.saveProduct(product);
         return "redirect:http://localhost:8080/admin_product/products";
     }

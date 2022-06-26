@@ -29,3 +29,8 @@ eureka:
   client:
     service-url:
       default-zone: 'http://localhost:8761/eureka'
+##clouddinary
+#cloudinary:
+#  cloud_name: '"huyhuynh"'
+#  api_key: '"186243663589179"'
+#  api_secret: '"xIhyZNk6NYFIuMSHRhZP0srJL_k"'

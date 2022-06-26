@@ -2,7 +2,8 @@
 <html lang = xmlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml">
 <th:block th:include="/home"></th:block>
 <body>
-<th:block th:include="/navbar"></th:block>
+<th:block th:include="/index"></th:block>
+<div class="container">
 <h1 align="center">ROLE-LIST</h1>
 
 <a class="btn btn-success" th:href="@{/admin_user/create_role}">add new</a>
@@ -26,6 +27,7 @@
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 <th:block th:include="/datatable"></th:block>
 </html>
