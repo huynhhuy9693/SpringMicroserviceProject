@@ -6,22 +6,26 @@
 <h1 align="center">ROLE-LIST</h1>
 
 <a class="btn btn-success" th:href="@{/admin_user/create_role}">add new</a>
-<a class="btn btn-success" th:href="@{http://localhost:8080/index}"> home </a>
-<table border="1" class="table">
-    <tr class="table-primary">
-        <td>ID</td>
-        <td>NAME</td>
-        <td>STATUS</td>
-        <td>ACTION</td>
+<table class="table table-bordered table-striped" id="datatable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>STATUS</th>
+        <th>ACTION</th>
     </tr>
-    <tr  class="table-primary" th:each="item : ${roles}">
+    </thead>
+    <tbody>
+    <tr th:each="item : ${roles}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name} "></td>
         <td th:text="${item.status}? 'Active':'Not Active' "></td>
         <td><a class="btn btn-primary" th:href="@{|/admin_user/role/details/${item.id}|}">update</a>
-<!--            <a class="btn btn-primary" th:href="@{|/admin_user/role/delete/${item.id}|}">delete</a>-->
+            <!--<a class="btn btn-primary" th:href="@{|/admin_user/role/delete/${item.id}|}">delete</a>-->
         </td>
     </tr>
+    </tbody>
 </table>
 </body>
+<th:block th:include="/datatable"></th:block>
 </html>

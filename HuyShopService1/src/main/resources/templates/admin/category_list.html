@@ -4,22 +4,27 @@
 <body>
 <th:block th:include="/navbar"></th:block>
 <h1 align="center">CATEGORY-LIST</h1>
-<a class="btn btn-success" th:href="@{/admin_product/create_category}">add new </a>
-<table border="1" class="table">
-    <tr class="table-primary">
-        <td>ID</td>
-        <td>NAME</td>
-        <td>STATUS</td>
-        <td>ACTION</td>
+<a class="btn btn-primary" th:href="@{/admin_product/create_category}">add new </a>
+<table class="table table-bordered table-striped" id="datatable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>STATUS</th>
+        <th>ACTIONS</th>
     </tr>
-    <tr class="table-primary" th:each="item : ${categories}">
-        <td th:text="${item.id}"></td>
-        <td th:text="${item.name} "></td>
-        <td th:text="${item.status}? 'Active':'Not Active' "></td>
-        <td><a class="btn btn-primary" th:href="@{|/admin_product/category/details/${item.id}|}">update</a>
-            <a class="btn btn-primary" th:href="@{|/admin_product/category/delete/${item.id}|}">update</a>
+    </thead>
+    <tbody>
+    <tr th:each="item: ${categories}">
+        <td th:text="${item.id}" />
+        <td th:text="${item.name}" />
+        <td th:text="${item.status}?'Active':'Not Active'" />
+        <td>
+            <a class="btn btn-primary" th:href="@{|/admin_product/category/details/${item.id}|}">update</a>
         </td>
     </tr>
+    </tbody>
 </table>
 </body>
+<th:block th:include="/datatable"></th:block>
 </html>

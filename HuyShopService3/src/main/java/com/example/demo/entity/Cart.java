@@ -17,11 +17,11 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @Column(name = "status")
-    private boolean status;
     @Column(name = "total_price")
     private long totalPrice;
     @Column(name = "order_number")
     private String orderNumber;
+    @Column(name = "delivery")
+    private boolean delivery;
 
 }

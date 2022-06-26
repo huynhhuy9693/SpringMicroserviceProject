@@ -5,18 +5,21 @@
 <th:block th:include="/navbar"></th:block>
 <h1 align="center">PRODUCTS-LIST</h1>
 <a class="btn btn-success" th:href="@{/admin_product/create_product}">add new </a>
-<table border="1" class="table">
-    <tr class="table-primary">
-        <td>ID</td>
-        <td>NAME</td>
-        <td>PRICE</td>
-        <td>IMG</td>
-        <td>QUANTITY</td>
-        <td>STATUS</td>
-        <td>CATEGORY</td>
-        <td>ACTION</td>
+<table class="table table-bordered table-striped" id="datatable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IMG</th>
+        <th>QUANTITY</th>
+        <th>STATUS</th>
+        <th>CATEGORY</th>
+        <th>ACTIONS</th>
     </tr>
-    <tr class="table-primary" th:each="item : ${products}">
+    </thead>
+    <tbody>
+    <tr th:each="item : ${products}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name} "></td>
         <td th:text="${item.price}"></td>
@@ -25,9 +28,11 @@
         <td th:text="${item.status}? 'Active':'Not Active' "></td>
         <td th:text="${item.category.name}"></td>
         <td><a class="btn btn-primary" th:href="@{|/admin_product/product/details/${item.id}|}">update</a>
-<!--            <a class="btn btn-primary" th:href="@{|/admin_product/product/delete/${item.id}|}">update</a>-->
+            <!--<a class="btn btn-primary" th:href="@{|/admin_product/product/delete/${item.id}|}">update</a>-->
         </td>
     </tr>
+    </tbody>
 </table>
+<th:block th:include="/datatable"></th:block>
 </body>
 </html>
