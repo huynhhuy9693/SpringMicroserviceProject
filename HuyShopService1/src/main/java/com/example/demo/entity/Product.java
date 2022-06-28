@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -37,10 +38,11 @@ public class Product {
     @Column(name ="status")
     private boolean status;
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "category_id" )
-    private Category category;
+    private Category categoryId;
 
     @PrePersist
     void onPrePersist() {

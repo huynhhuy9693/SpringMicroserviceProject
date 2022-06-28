@@ -10,9 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
+import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @Controller
@@ -26,72 +29,73 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public String findUsers(Model model)
+    public ResponseEntity<List<UserTb>> findUsers(HttpServletResponse response)
     {
-        model.addAttribute("users", service.findAllUsers());
-        return "/admin/user_list";
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        List<UserTb> userTbList = service.findAllUsers();
+        return new ResponseEntity<>(userTbList,HttpStatus.OK);
 
     }
-    @GetMapping("/create_user")
-    public String showAddUser(Model model)
-    {
-        UserTb user= new UserTb();
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roleService.findAllRoles());
-        return "admin/create_user";
-    }
-
-    @GetMapping("/user/{id}")
-    public ResponseEntity findUserById(@PathVariable("id") long id)
-    {
-        System.out.println("Fetching User with id " + id);
-        UserTb users = service.findUserById(id);
-        if (users==null) {
-            System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>( service.findUserById(id), HttpStatus.OK);
-
-
-    }
-
-    @PostMapping("user/create")
-    public String  createUser(@ModelAttribute("user") UserTb userTb )
-    {
-        System.out.println("Creating User " +userTb.getName());
-        service.saveUser(userTb);
-        return "redirect:http://localhost:8080/admin_user/users";
-    }
-
-    @GetMapping("user/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id )
-    {
-
-        System.out.println("Fetching & Deleting User with id " + id);
-        UserTb user = service.findUserById(id);
-//        if (user==null) {
-//            System.out.println("Unable to delete. User with id " + id + " not found");
+//    @GetMapping("/create_user")
+//    public String showAddUser(Model model)
+//    {
+//        UserTb user= new UserTb();
+//        model.addAttribute("user", user);
+//        model.addAttribute("roles", roleService.findAllRoles());
+//        return "admin/create_user";
+//    }
+//
+//    @GetMapping("/user/{id}")
+//    public ResponseEntity findUserById(@PathVariable("id") long id)
+//    {
+//        System.out.println("Fetching User with id " + id);
+//        UserTb users = service.findUserById(id);
+//        if (users==null) {
+//            System.out.println("User with id " + id + " not found");
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //        }
-        service.deleteUser(id);
-        return "redirect:http://localhost:8080/admin_user/users";
-    }
-
-    @GetMapping("user/details/{id}")
-    public String detailProduct(@PathVariable Long id, Model model)
-    {
-        System.out.println("user id " + id);
-        model.addAttribute("user",service.findUserById(id));
-        model.addAttribute("roles",roleService.findAllRoles());
-        return "admin/update_user.html";
-    }
-
-    @PostMapping("user/update/{id}")
-    public String  updateUser(@RequestParam long id, @ModelAttribute("user") UserTb userTb) {
-
-        System.out.println("Updating User " + id);
-        service.saveUser(userTb);
-        return "redirect:http://localhost:8080/admin_user/users";
-
-    }
+//        return new ResponseEntity<>( service.findUserById(id), HttpStatus.OK);
+//
+//
+//    }
+//
+//    @PostMapping("user")
+//    public String  createUser(@ModelAttribute("user") UserTb userTb )
+//    {
+//        System.out.println("Creating User " +userTb.getName());
+//        service.saveUser(userTb);
+//        return "redirect:http://localhost:8080/admin_user/users";
+//    }
+//
+//    @GetMapping("user/{id}")
+//    public String deleteUser(@PathVariable("id") long id )
+//    {
+//
+//        System.out.println("Fetching & Deleting User with id " + id);
+//        UserTb user = service.findUserById(id);
+////        if (user==null) {
+////            System.out.println("Unable to delete. User with id " + id + " not found");
+////            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+////        }
+//        service.deleteUser(id);
+//        return "redirect:http://localhost:8080/admin_user/users";
+//    }
+//
+//    @GetMapping("user/details/{id}")
+//    public String detailProduct(@PathVariable Long id, Model model)
+//    {
+//        System.out.println("user id " + id);
+//        model.addAttribute("user",service.findUserById(id));
+//        model.addAttribute("roles",roleService.findAllRoles());
+//        return "admin/update_user.html";
+//    }
+//
+//    @PostMapping("user/{id}")
+//    public String  updateUser(@RequestParam long id, @ModelAttribute("user") UserTb userTb) {
+//
+//        System.out.println("Updating User " + id);
+//        service.saveUser(userTb);
+//        return "redirect:http://localhost:8080/admin_user/users";
+//
+//    }
 }

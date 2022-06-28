@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.List;
@@ -35,9 +37,11 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> findProducts()
+    public ResponseEntity<List<Product>> findProducts(HttpServletResponse response)
     {
-        return new ResponseEntity<List<Product>>(service.findAllProducts(),HttpStatus.OK);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        List<Product> productList = service.findAllProducts();
+        return new ResponseEntity<>(productList,HttpStatus.OK);
     }
 
     @GetMapping("/create_product")
@@ -64,14 +68,14 @@ public class ProductController {
 
     }
 
-    @PostMapping(value = "product/create")
+    @PostMapping(value = "product")
     public ResponseEntity  createProduct(@RequestBody  Product product)
     {
         System.out.println("Creating Product " +product.getName());
         return new ResponseEntity<>(service.saveProduct(product),HttpStatus.OK);
     }
 
-    @DeleteMapping ("product/delete/{id}")
+    @DeleteMapping ("product/{id}")
     public void deleteProduct(@PathVariable("id") long id )
     {
         System.out.println("Fetching & Deleting Products with id " + id);
@@ -90,7 +94,7 @@ public class ProductController {
         return "admin/update_product.html";
     }
 
-    @PostMapping("product/update/{id}")
+    @PostMapping("product/{id}")
     public ResponseEntity updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
 
         System.out.println("Updating Product " + id);

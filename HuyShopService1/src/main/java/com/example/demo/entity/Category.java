@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +22,8 @@ public class Category {
     @Column(name = "status")
     private boolean status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private List<Product> product ;
     @PrePersist
     void onPrePersist() {

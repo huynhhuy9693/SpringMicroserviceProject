@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,14 +15,8 @@ import java.util.Map;
 public class HuyShopServiceApplication {
 
 	@Bean
-	public Cloudinary cloudinaryConfig() {
-		Cloudinary cloudinary = null;
-		Map config = new HashMap();
-		config.put("cloud_name", "huyhuynh");
-		config.put("api_key", "186243663589179");
-		config.put("api_secret", "xIhyZNk6NYFIuMSHRhZP0srJL_k");
-		cloudinary = new Cloudinary(config);
-		return cloudinary;
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(HuyShopServiceApplication.class, args);

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.CategoryDTO;
 import com.example.demo.entity.Category;
 import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,10 @@ public class CategotyController {
 
 
     @GetMapping("/categories")
-    public ResponseEntity<List<Category>> findCategories(Model model, HttpServletResponse response)
+    public ResponseEntity<List<Category>> findCategories(HttpServletResponse response)
     {
         response.addHeader("Access-Control-Allow-Origin", "*");
         List<Category> categoryList = service.findAllCategories();
-        model.addAttribute("categories",categoryList);
         return new ResponseEntity<>(categoryList,HttpStatus.OK);
 
     }
@@ -53,8 +53,8 @@ public class CategotyController {
 
     }
 
-    @PostMapping(value = "category", consumes = {"application/xml","application/json"})
-    public ResponseEntity  createCategory(@RequestBody Category category)
+    @PostMapping(value = "category")
+    public ResponseEntity  createCategory( @RequestBody Category category)
     {
 
         System.out.println("Creating Category " +category.getName());
