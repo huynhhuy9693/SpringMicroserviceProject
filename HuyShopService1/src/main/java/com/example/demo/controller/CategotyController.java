@@ -10,9 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping( value = "/admin_product")
 public class CategotyController {
 
@@ -21,11 +22,12 @@ public class CategotyController {
 
 
     @GetMapping("/categories")
-    public String findCategories(Model model)
+    public ResponseEntity<List<Category>> findCategories(Model model, HttpServletResponse response)
     {
+        response.addHeader("Access-Control-Allow-Origin", "*");
         List<Category> categoryList = service.findAllCategories();
         model.addAttribute("categories",categoryList);
-        return "admin/category_list";
+        return new ResponseEntity<>(categoryList,HttpStatus.OK);
 
     }
 
@@ -51,41 +53,35 @@ public class CategotyController {
 
     }
 
-    @PostMapping("category/create")
-    public String  createCategory(@ModelAttribute("category") Category category)
+    @PostMapping(value = "category", consumes = {"application/xml","application/json"})
+    public ResponseEntity  createCategory(@RequestBody Category category)
     {
 
         System.out.println("Creating Category " +category.getName());
-        service.saveCategory(category);
-        return "redirect:http://localhost:8080/admin_product/categories";
-
+        return new ResponseEntity<>(service.saveCategory(category),HttpStatus.OK);
     }
 
-    @GetMapping("category/delete/{id}")
-    public String deleteCategory(@PathVariable("id") Long id )
+    @DeleteMapping("category/{id}")
+    public void deleteCategory(@PathVariable("id") Long id )
     {
-
         System.out.println("Fetching & Deleting Category with id " + id);
-        Category category = service.findCategoryById(id);
+        service.findCategoryById(id);
         service.deleteCategory(id);
-        return "redirect:http://localhost:8080/admin_product/categories";
     }
 
     @GetMapping("category/details/{id}")
     public String detailCategory(@PathVariable Long id, Model model)
     {
         System.out.println("category_update " + id);
-
         model.addAttribute("category",service.findCategoryById(id));
         return "admin/update_category";
     }
 
-    @PostMapping("category/update/{id}")
-    public String  updateCategory(@RequestParam("id") Long id, @ModelAttribute("category") Category category) {
-
+    @PostMapping("category/{id}")
+    public ResponseEntity  updateCategory(@PathVariable("id") Long id, @RequestBody Category category)
+    {
         System.out.println("Updating Category "  + id);
-        service.saveCategory(category);
-        return "redirect:http://localhost:8080/admin_product/categories";
-
+        service.findCategoryById(id);
+        return new ResponseEntity<>(service.saveCategory(category),HttpStatus.OK);
     }
 }

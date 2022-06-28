@@ -1,7 +1,9 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,6 +13,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
 
     @Id
@@ -33,6 +37,11 @@ public class Product {
     @Column(name ="status")
     private boolean status;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "category_id" )
+    private Category category;
+
     @PrePersist
     void onPrePersist() {
         if (status == false) {
@@ -41,8 +50,5 @@ public class Product {
     }
 
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "category_id" )
-    private Category category;
+
 }

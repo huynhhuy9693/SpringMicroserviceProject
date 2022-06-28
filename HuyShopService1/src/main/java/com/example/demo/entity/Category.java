@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,7 @@ public class Category {
     private String name;
     @Column(name = "status")
     private boolean status;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<Product> product ;
     @PrePersist
