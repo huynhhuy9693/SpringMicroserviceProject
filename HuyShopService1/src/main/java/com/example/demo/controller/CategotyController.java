@@ -40,9 +40,10 @@ public class CategotyController {
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity findCategoryById(@PathVariable("id") Long id)
+    public ResponseEntity findCategoryById(@PathVariable("id") Long id,HttpServletResponse response)
     {
         System.out.println("Fetching Category with id " + id);
+        response.addHeader("Access-Control-Allow-Origin", "*");
         Category category = service.findCategoryById(id);
 
         if (category==null) {
@@ -58,6 +59,7 @@ public class CategotyController {
     {
 
         System.out.println("Creating Category " +category.getName());
+
         return new ResponseEntity<>(service.saveCategory(category),HttpStatus.OK);
     }
 
@@ -77,7 +79,7 @@ public class CategotyController {
         return "admin/update_category";
     }
 
-    @PostMapping("category/{id}")
+    @PutMapping("category/{id}")
     public ResponseEntity  updateCategory(@PathVariable("id") Long id, @RequestBody Category category)
     {
         System.out.println("Updating Category "  + id);

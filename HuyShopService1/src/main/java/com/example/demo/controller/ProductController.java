@@ -1,27 +1,19 @@
 package com.example.demo.controller;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-import com.example.demo.entity.Category;
+
+import com.example.demo.dto.ProductDTO;
 import com.example.demo.entity.Product;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.*;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping( value = "/admin_product")
@@ -32,15 +24,16 @@ public class ProductController {
     private ProductService service;
     @Autowired
     private CategoryService categoryService;
-
+    @Autowired
+    private ModelMapper modelMapper;
 
 
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> findProducts(HttpServletResponse response)
+    public ResponseEntity findProducts(HttpServletResponse response)
     {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        List<Product> productList = service.findAllProducts();
+        List<ProductDTO> productList = service.findAllProducts();
         return new ResponseEntity<>(productList,HttpStatus.OK);
     }
 
@@ -54,10 +47,10 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity findProductById(@PathVariable("id") long id)
+    public ResponseEntity findProductById(@PathVariable("id") long id,HttpServletResponse response)
     {
         System.out.println("Fetching Product with id " + id);
-
+        response.addHeader("Access-Control-Allow-Origin", "*");
         Product product = service.findProductById(id);
         if (product==null) {
             System.out.println("Product with id " + id + " not found");
@@ -69,10 +62,10 @@ public class ProductController {
     }
 
     @PostMapping(value = "product")
-    public ResponseEntity  createProduct(@RequestBody  Product product)
+    public ResponseEntity  createProduct(@RequestBody  ProductDTO productDTO)
     {
-        System.out.println("Creating Product " +product.getName());
-        return new ResponseEntity<>(service.saveProduct(product),HttpStatus.OK);
+        System.out.println("Creating Product " +productDTO.getName());
+        return new ResponseEntity<>(service.saveProduct(productDTO),HttpStatus.OK);
     }
 
     @DeleteMapping ("product/{id}")
@@ -94,12 +87,19 @@ public class ProductController {
         return "admin/update_product.html";
     }
 
-    @PostMapping("product/{id}")
-    public ResponseEntity updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
+//    @PutMapping("product/{id}")
+//    public ResponseEntity updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
+//
+//        System.out.println("Updating Product " + id);
+//
+//        service.saveProduct(product);
+//        return new ResponseEntity<>(service.saveProduct(product),HttpStatus.OK);
+//    }
 
-        System.out.println("Updating Product " + id);
-
-        service.saveProduct(product);
-        return new ResponseEntity<>(service.saveProduct(product),HttpStatus.OK);
-    }
+//    @GetMapping(value = "product/{id}/category")
+//    public ResponseEntity findByCategory(@PathVariable("id") Long id, @RequestBody Product product)
+//    {
+//        System.out.println("Find category of id :" +id);
+//        return new ResponseEntity<>(service.findByCategory(id,product), HttpStatus.OK);
+//    }
 }

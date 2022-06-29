@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
+
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +24,7 @@ public class Category {
     @Column(name = "status")
     private boolean status;
 
-    @JsonManagedReference
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private List<Product> product ;
     @PrePersist

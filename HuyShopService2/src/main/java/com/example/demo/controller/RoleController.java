@@ -36,28 +36,28 @@ public class RoleController {
 //        return "admin/create_role";
 //    }
 //
-//    @GetMapping("/role/{id}")
-//    public ResponseEntity getRoleById(@PathVariable("id") int id)
-//    {
-//        System.out.println("Fetching Role with id " + id);
-//
-//        Role role = service.findRoleById(id);
-//        if (role==null) {
-//            System.out.println("Role with id " + id + " not found");
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>( service.findRoleById(id), HttpStatus.OK);
+    @GetMapping("/role/{id}")
+    public ResponseEntity getRoleById(@PathVariable("id") int id,HttpServletResponse response) {
+        System.out.println("Fetching Role with id " + id);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        Role role = service.findRoleById(id);
+        if (role == null) {
+            System.out.println("Role with id " + id + " not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(service.findRoleById(id), HttpStatus.OK);
+    }
 //
 //
 //    }
 //
-//    @PostMapping("role")
-//    public String  createRole(@ModelAttribute("role") Role role)
-//    {
-//        System.out.println("Creating Role " +role.getName());
-//        service.saveRole(role);
-//        return "redirect:http://localhost:8080/admin_user/roles";
-//    }
+    @PostMapping("role")
+    public ResponseEntity  createRole(@RequestBody Role role)
+    {
+        System.out.println("Creating Role " +role.getName());
+        return  new ResponseEntity<>(service.saveRole(role),HttpStatus.OK);
+
+    }
 //
 //    @GetMapping("role/{id}")
 //    public String deleteRole(@PathVariable("id") int id )
@@ -80,12 +80,12 @@ public class RoleController {
 //        return "admin/update_role";
 //    }
 //
-//    @PostMapping("role/{id}")
-//    public String  updateRole(@RequestParam("id") int id, @ModelAttribute("role") Role role) {
-//
-//        System.out.println("Updating Role " + id);
-//        service.saveRole(role);
-//        return "redirect:http://localhost:8080/admin_user/roles";
-//
-//    }
+    @PutMapping("role/{id}")
+    public ResponseEntity  updateRole(@PathVariable("id") int id, @RequestBody Role role) {
+
+        System.out.println("Updating Role " + id);
+        service.saveRole(role);
+        return new ResponseEntity<>(service.saveRole(role),HttpStatus.OK);
+
+    }
 }

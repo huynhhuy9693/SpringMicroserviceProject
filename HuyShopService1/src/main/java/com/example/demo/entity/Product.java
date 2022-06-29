@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @Builder
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Product {
 
     @Id
@@ -38,8 +39,7 @@ public class Product {
     @Column(name ="status")
     private boolean status;
 
-//    @JsonIgnore
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id" )
     private Category categoryId;

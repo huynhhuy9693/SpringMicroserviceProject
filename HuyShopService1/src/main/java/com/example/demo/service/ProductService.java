@@ -2,18 +2,18 @@ package com.example.demo.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.demo.dto.ProductDTO;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
+
 
 @Service
 public class ProductService {
@@ -21,10 +21,13 @@ public class ProductService {
     private ProductRepository repository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-    public List<Product> findAllProducts()
+
+    public List<ProductDTO> findAllProducts()
     {
-        return repository.findAll();
+      return repository.findAll().stream().map(product -> modelMapper.map(product, ProductDTO.class)).collect(Collectors.toList());
     }
 
 
@@ -46,9 +49,12 @@ public class ProductService {
     }
 
 
-    public Product saveProduct(Product product)
+    public Product saveProduct(ProductDTO productDTO)
     {
-        return repository.save(product) ;
+        Product productRequest = modelMapper.map(productDTO, Product.class);
+        Product product = repository.save(productRequest);
+        // convert entity to DTO
+        return product;
     }
 
     public void deleteProduct(Long id)
@@ -70,5 +76,9 @@ public class ProductService {
     }
 
 
+//    public Product findByCategory(Long id,Product product)
+//    {
+//        return repository.findByCategoryId(product.getCategoryId());
+//    }
 
 }
