@@ -33,7 +33,7 @@ public class ProductController {
     public ResponseEntity findProducts(HttpServletResponse response)
     {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        List<ProductDTO> productList = service.findAllProducts();
+        List<Product> productList = service.findAllProducts();
         return new ResponseEntity<>(productList,HttpStatus.OK);
     }
 
@@ -87,14 +87,14 @@ public class ProductController {
         return "admin/update_product.html";
     }
 
-//    @PutMapping("product/{id}")
-//    public ResponseEntity updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
-//
-//        System.out.println("Updating Product " + id);
-//
-//        service.saveProduct(product);
-//        return new ResponseEntity<>(service.saveProduct(product),HttpStatus.OK);
-//    }
+    @PutMapping("product/{id}")
+    public ResponseEntity updateProduct(@PathVariable("id") long id, @RequestBody ProductDTO productDTO) {
+
+        System.out.println("Updating Product " + id);
+
+        service.saveProduct(productDTO);
+        return new ResponseEntity<>(service.saveProduct(productDTO),HttpStatus.OK);
+    }
 
 //    @GetMapping(value = "product/{id}/category")
 //    public ResponseEntity findByCategory(@PathVariable("id") Long id, @RequestBody Product product)

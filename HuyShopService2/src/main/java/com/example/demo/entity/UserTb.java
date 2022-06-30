@@ -9,9 +9,7 @@ import java.sql.Date;
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 
 public class UserTb {
     @Id
@@ -38,7 +36,6 @@ public class UserTb {
 //    @Column(name = "role")
 //    private int role;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role roleId;

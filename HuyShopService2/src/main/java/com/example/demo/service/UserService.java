@@ -19,8 +19,8 @@ public class UserService {
 
     public List<UserTb> findAllUsers()
     {
-        roleRepository.findAll();
-        return repository.findAll();
+        List<UserTb> userTbList =repository.findAll();
+        return userTbList;
 
     }
 

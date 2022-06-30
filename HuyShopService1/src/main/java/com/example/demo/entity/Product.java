@@ -11,11 +11,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Setter
 @Getter
-@Builder
 
 public class Product {
 
@@ -39,7 +36,7 @@ public class Product {
     @Column(name ="status")
     private boolean status;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id" )
     private Category categoryId;

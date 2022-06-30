@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -12,9 +13,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +25,7 @@ public class Role {
     @Column(name = "status")
     private boolean status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roleId" , cascade = CascadeType.ALL)
     private List<UserTb> user;
 

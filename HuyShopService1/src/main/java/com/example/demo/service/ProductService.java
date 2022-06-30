@@ -25,9 +25,11 @@ public class ProductService {
     private ModelMapper modelMapper;
 
 
-    public List<ProductDTO> findAllProducts()
+    public List<Product> findAllProducts()
     {
-      return repository.findAll().stream().map(product -> modelMapper.map(product, ProductDTO.class)).collect(Collectors.toList());
+        List<Product> productList = repository.findAll();
+        return productList;
+
     }
 
 
